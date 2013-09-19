@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.malsolo.autentia.cursos.persistence.CursoMapper">
+	<resultMap id="cursoResultMap" type="Curso">
+		<id property="id" column="id" />
+		<result property="titulo" column="titulo"/>
+		<result property="nivel" column="nivel"/>
+		<result property="horas" column="horas"/>
+		<result property="activo" column="activo"/>
+		<association property="profesor" javaType="Profesor">
+			<id property="id" column="profesor_id" />
+			<result property="nombre" column="nombre"/>
+		</association>
+	</resultMap>
+	
+	<select id="findAll" resultMap="cursoResultMap">
+	    select c.id, titulo, nivel, horas, activo, profesor_id, p.nombre
+	    from cursos c 
+	    	left outer join profesores p
+	    		on p.id = c.profesor_id
+	</select>
+
+	<select id="findById" resultMap="cursoResultMap">
+	    select c.id, titulo, nivel, horas, activo, profesor_id, p.nombre
+	    from cursos c 
+	    	left outer join profesores p
+	    		on p.id = c.profesor_id
+	    where c.id = #{id}
+	</select>
+	
+	<insert id="insert" parameterType="Curso" useGeneratedKeys="true" keyProperty="id">
+		insert into cursos (profesor_id, titulo, nivel, horas, activo)
+		values (#{profesor.id}, #{titulo}, #{nivel}, #{horas}, #{activo})
+	</insert>
+	
+	<update id="update" parameterType="Curso">
+	    update cursos set
+	    	profesor_id = #{profesor.id},
+	    	titulo = #{titulo},
+	    	nivel = #{nivel},
+	    	horas = #{horas},
+	    	activo = #{activo}
+	    where id = #{id}
+    </update>
+    
+	<delete id="delete" parameterType="long">
+		delete from cursos where id = #{id}
+	</delete>
+	
+</mapper>
