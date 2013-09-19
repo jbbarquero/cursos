@@ -2,6 +2,8 @@ package com.malsolo.autentia.cursos.persistence;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
+
 import com.malsolo.autentia.cursos.domain.Curso;
 
 public interface CursoMapper {
@@ -16,4 +18,5 @@ public interface CursoMapper {
 	
 	public void delete(Long id);
 
+	public List<Curso> findEntries(RowBounds rowBounds);
 }

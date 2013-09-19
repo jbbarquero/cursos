@@ -48,5 +48,12 @@
 	<delete id="delete" parameterType="long">
 		delete from cursos where id = #{id}
 	</delete>
-	
+
+	<select id="findEntries" resultMap="cursoResultMap">
+	    select c.id, titulo, nivel, horas, activo, profesor_id, p.nombre
+	    from cursos c 
+	    	left outer join profesores p
+	    		on p.id = c.profesor_id
+	</select>
+		
 </mapper>

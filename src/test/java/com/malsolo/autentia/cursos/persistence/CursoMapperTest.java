@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -60,7 +61,7 @@ public class CursoMapperTest {
     @Test
     public void testInsert() {
     	logger.info("Probando insert()");
-    	Curso curso = createNewTransientCurso();
+    	Curso curso = createNewTransientCurso(0);
     	this.cursoMapper.insert(curso);
     	logger.debug("Insertado curso: {} ", curso);//Ojo: curso.profesor.nombre es "nombre"
     	Curso cursoDB = this.cursoMapper.findById(curso.getId());
@@ -98,13 +99,32 @@ public class CursoMapperTest {
     	testDelete();//Pero las transacciones funcionan. O eso parece.
     }
     
-	private Curso createNewTransientCurso() {
+    @Test
+    public void testFindEntries() {
+    	logger.info("Probando findEntries()");
+    	int cursosTemporales = 50;
+    	for (int i = 0; i < cursosTemporales; i++) {
+			this.cursoMapper.insert(createNewTransientCurso(i));
+		}
+    	int primerRegistro = 20;
+    	int tamanyoPagina = 10;
+    	List<Curso> cursos = this.cursoMapper.findEntries(new RowBounds(primerRegistro, tamanyoPagina));
+        assertNotNull("Error al buscar todos los cursos, findEntries ha devuelto null", cursos);
+        assertEquals("Error al buscar todos los cursos, findEntries no ha devuelto el número esperado", tamanyoPagina, cursos.size());
+        for (Curso curso : cursos) {
+        	logger.debug("Encontrado curso paginado: {} ", curso);
+			assertTrue("Error al buscar todos los cursos, findEntries no ha devuelto el registro esperado", curso.getTitulo().contains("Titulo"));
+		}
+    	logger.info("Probando findEntries(). HECHO.");
+	}
+    
+	private Curso createNewTransientCurso(int i) {
 		Curso curso = new Curso();
 			Profesor profesor = new Profesor();//Oops! Molaría más getRandomProfesor();
 			profesor.setId(1L);//Con dos cojones
 			profesor.setNombre("nombre");//Irrelevante porque no es JPA ni cascada ni nada así
 		curso.setProfesor(profesor);
-		curso.setTitulo("Titulo");
+		curso.setTitulo("Titulo "+i);
 		curso.setNivel(Curso.NIVEL_BASICO);
 		curso.setHoras(25);
 		curso.setActivo(true);
