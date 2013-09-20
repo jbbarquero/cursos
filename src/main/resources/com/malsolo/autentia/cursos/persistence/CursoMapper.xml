@@ -49,11 +49,16 @@
 		delete from cursos where id = #{id}
 	</delete>
 
-	<select id="findEntries" resultMap="cursoResultMap">
+	<select id="findEntries" parameterType="com.malsolo.autentia.cursos.persistence.OrderType" resultMap="cursoResultMap">
 	    select c.id, titulo, nivel, horas, activo, profesor_id, p.nombre
 	    from cursos c 
 	    	left outer join profesores p
 	    		on p.id = c.profesor_id
+	    order by titulo ${order}
 	</select>
 		
+	<select id="count" resultType="long">
+	    select count(*) from cursos 
+	</select>
+
 </mapper>

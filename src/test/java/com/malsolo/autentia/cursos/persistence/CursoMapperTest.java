@@ -38,13 +38,13 @@ public class CursoMapperTest {
     	logger.info("Probando findAll()");
     	List<Curso> cursos = this.cursoMapper.findAll();
         assertNotNull("Error al buscar todos los cursos, findAll ha devuelto null", cursos);
-        assertEquals("Error al buscar todos los cursos, findAll no ha devuelto el número esperado", 2, cursos.size());
         for (Curso curso : cursos) {
         	logger.debug("Encontrado curso: {} ", curso);
 			if (curso.getTitulo().contains("JSF2")) {
 				assertTrue("Error al buscar todos los cursos, findAll no ha devuelto el registro esperado", curso.getProfesor().getNombre().contains("Roberto"));
 			}
 		}
+        assertEquals("Error al buscar todos los cursos, findAll no ha devuelto el número esperado", 2, cursos.size());
     	logger.info("Probando findAll(). HECHO.");
     }
 
@@ -108,7 +108,7 @@ public class CursoMapperTest {
 		}
     	int primerRegistro = 20;
     	int tamanyoPagina = 10;
-    	List<Curso> cursos = this.cursoMapper.findEntries(new RowBounds(primerRegistro, tamanyoPagina));
+    	List<Curso> cursos = this.cursoMapper.findEntries(OrderType.DESC, new RowBounds(primerRegistro, tamanyoPagina));
         assertNotNull("Error al buscar todos los cursos, findEntries ha devuelto null", cursos);
         assertEquals("Error al buscar todos los cursos, findEntries no ha devuelto el número esperado", tamanyoPagina, cursos.size());
         for (Curso curso : cursos) {
@@ -118,7 +118,16 @@ public class CursoMapperTest {
     	logger.info("Probando findEntries(). HECHO.");
 	}
     
-	private Curso createNewTransientCurso(int i) {
+    @Test
+    public void testCount() {
+    	logger.info("Probando count()");
+        long count = this.cursoMapper.count();
+    	logger.info("Cursos contados: {} ", count);
+        assertEquals("Error al contar los cursos, número de cursos encontrado incorrecto", 2, count);
+    	logger.info("Probando count(). HECHO.");
+    }
+
+    private Curso createNewTransientCurso(int i) {
 		Curso curso = new Curso();
 			Profesor profesor = new Profesor();//Oops! Molaría más getRandomProfesor();
 			profesor.setId(1L);//Con dos cojones

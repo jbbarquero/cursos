@@ -7,7 +7,7 @@ import org.apache.ibatis.session.RowBounds;
 import com.malsolo.autentia.cursos.domain.Curso;
 
 public interface CursoMapper {
-
+	
 	public Curso findById(Long id);
 
 	public List<Curso> findAll();
@@ -18,5 +18,7 @@ public interface CursoMapper {
 	
 	public void delete(Long id);
 
-	public List<Curso> findEntries(RowBounds rowBounds);
+	public List<Curso> findEntries(OrderType orderType, RowBounds rowBounds);
+
+	public long count();
 }
