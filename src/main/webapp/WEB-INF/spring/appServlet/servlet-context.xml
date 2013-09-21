@@ -10,7 +10,7 @@
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
-	<annotation-driven />
+	<annotation-driven conversion-service="conversionService" />
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
@@ -24,5 +24,21 @@
 	<context:component-scan base-package="com.malsolo.autentia.cursos" use-default-filters="false">
         <context:include-filter expression="org.springframework.stereotype.Controller" type="annotation"/>
 	</context:component-scan>
+	
+	<beans:bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+	    <beans:property name="formatterRegistrars" >
+		    <!-- See http://spring.io/blog/2011/02/21/spring-3-1-m1-mvc-namespace-enhancements-and-configuration/ -->
+		    <!-- 
+		    	· FormattingConversionServiceFactoryBean instala formatters en su método afterPropertiesSet llamando a registerFormatters()
+		    	· El método registerFormatters() instala los formatters si hay, registra los formatterRegistrars si hay y llama al método protegido installFormatters() que las clases pueden sobreescribir.
+		    	· El método installFormatters() está obsoleto en favor de los formatterRegistrars.
+		    	· Spring Roo todavía genera una clase (ApplicationConversionServiceFactory) que extiende FormattingConversionServiceFactoryBean y sobreescribe ese método para que puedas presonalizarlo.
+		    	Probemos con los formatterRegistrars.  
+		     -->
+		    <beans:list>
+		        <beans:bean class="com.malsolo.autentia.cursos.format.ProfesorFormatterRegistrar"/>
+		    </beans:list>
+	    </beans:property>
+	</beans:bean>
 	
 </beans:beans>

@@ -41,5 +41,13 @@ public interface CursoService {
 	 * @return
 	 */
 	public List<Curso> todos();
+	
+	/**
+	 * Nadie se ha percatado de que hay que mostrar, al menos el curso creado
+	 * @param id
+	 * @return
+	 */
+	public Curso findById(Long id);
+	
 
 }

@@ -51,4 +51,10 @@ public class CursoServiceWithCursoMapperImpl implements CursoService {
 		return cursoMapper.findAll();
 	}
 
+	@Transactional(readOnly=true)
+	@Override
+	public Curso findById(Long id) {
+		return cursoMapper.findById(id);
+	}
+
 }
