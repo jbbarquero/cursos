@@ -18,7 +18,15 @@ public interface CursoMapper {
 	
 	public void delete(Long id);
 
-	public List<Curso> findEntries(OrderType orderType, RowBounds rowBounds);
+	/** For the time being: only active courses :( */
+	public List<Curso> findActiveEntries(OrderType orderType, RowBounds rowBounds);
 
 	public long count();
+
+	/** For the time being: only active courses :( */
+	public long countActiveEntries();
+
+	public Curso findByActivo(Boolean activo);
+
+	public long countByActivo(Boolean activo);
 }

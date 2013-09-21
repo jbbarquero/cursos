@@ -7,7 +7,9 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,10 +26,15 @@ import com.malsolo.autentia.cursos.domain.Profesor;
 @Transactional
 public class CursoMapperTest {
 	
+	private static final String MENSAJE_METODO_PRUEBA = "PROBANDO {}. {} ";
+
 	private Logger logger = LoggerFactory.getLogger(CursoMapperTest.class);
 	
 	@Autowired
 	private CursoMapper cursoMapper;
+	
+	@Rule
+	public TestName testName = new TestName();
 
     @Test
     public void testMarkerMethod() {
@@ -44,7 +51,7 @@ public class CursoMapperTest {
 				assertTrue("Error al buscar todos los cursos, findAll no ha devuelto el registro esperado", curso.getProfesor().getNombre().contains("Roberto"));
 			}
 		}
-        assertEquals("Error al buscar todos los cursos, findAll no ha devuelto el número esperado", 2, cursos.size());
+        assertEquals("Error al buscar todos los cursos, findAll no ha devuelto el número esperado", 5, cursos.size());
     	logger.info("Probando findAll(). HECHO.");
     }
 
@@ -106,15 +113,18 @@ public class CursoMapperTest {
     	for (int i = 0; i < cursosTemporales; i++) {
 			this.cursoMapper.insert(createNewTransientCurso(i));
 		}
-    	int primerRegistro = 20;
+    	//NOTA: hay 50 + 4 cursos, pero sólo 25 + 2 activos...
     	int tamanyoPagina = 10;
-    	List<Curso> cursos = this.cursoMapper.findEntries(OrderType.DESC, new RowBounds(primerRegistro, tamanyoPagina));
+    	int paginaInicial = 1;//La primera
+    	int primerRegistro = paginaInicial * tamanyoPagina;//Segunda página
+    	List<Curso> cursos = this.cursoMapper.findActiveEntries(OrderType.DESC, new RowBounds(primerRegistro, tamanyoPagina));
         assertNotNull("Error al buscar todos los cursos, findEntries ha devuelto null", cursos);
-        assertEquals("Error al buscar todos los cursos, findEntries no ha devuelto el número esperado", tamanyoPagina, cursos.size());
         for (Curso curso : cursos) {
         	logger.debug("Encontrado curso paginado: {} ", curso);
 			assertTrue("Error al buscar todos los cursos, findEntries no ha devuelto el registro esperado", curso.getTitulo().contains("Titulo"));
 		}
+        //...Luego preguntando por la segunda página si que se obtienen 10 registros. Si fuera la tercera sólo serían 7.
+        assertEquals("Error al buscar todos los cursos, findEntries no ha devuelto el número esperado", tamanyoPagina, cursos.size());
     	logger.info("Probando findEntries(). HECHO.");
 	}
     
@@ -123,8 +133,17 @@ public class CursoMapperTest {
     	logger.info("Probando count()");
         long count = this.cursoMapper.count();
     	logger.info("Cursos contados: {} ", count);
-        assertEquals("Error al contar los cursos, número de cursos encontrado incorrecto", 2, count);
+        assertEquals("Error al contar los cursos, número de cursos encontrado incorrecto", 5, count);
     	logger.info("Probando count(). HECHO.");
+    }
+
+    @Test
+    public void testCountActiveEntries() {
+    	logger.info(MENSAJE_METODO_PRUEBA, this.testName.getMethodName(), "");
+        long count = this.cursoMapper.countActiveEntries();
+    	logger.info("Cursos contados: {} ", count);
+        assertEquals("Error al contar los cursos, número de cursos encontrado incorrecto", 3, count);
+    	logger.info(MENSAJE_METODO_PRUEBA, this.testName.getMethodName(), "HECHO.");
     }
 
     private Curso createNewTransientCurso(int i) {
@@ -136,7 +155,7 @@ public class CursoMapperTest {
 		curso.setTitulo("Titulo "+i);
 		curso.setNivel(Curso.NIVEL_BASICO);
 		curso.setHoras(25);
-		curso.setActivo(true);
+		curso.setActivo(i % 2 == 0);
 		return curso;
 	}
 

@@ -3,9 +3,6 @@ package com.malsolo.autentia.cursos.domain;
 import java.io.Serializable;
 import java.util.Objects;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 public class Curso implements Serializable {
 	
 	public static final Integer NIVEL_BASICO = 0; 
@@ -17,20 +14,20 @@ public class Curso implements Serializable {
 
 	private Long id;
 
-    @NotNull
-    @Size(max = 100)
+//    @NotNull
+//    @Size(max = 100)
     private String titulo;
 
-    @NotNull
+//    @NotNull
     private Integer nivel;
 
-    @NotNull
+//    @NotNull
     private Integer horas;
 
-    @NotNull
+//    @NotNull
     private Boolean activo;
 
-    @NotNull
+//    @NotNull
     private Profesor profesor;
 
 	public Long getId() {

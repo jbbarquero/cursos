@@ -55,12 +55,13 @@
 			<version>${org.springframework-version}</version>
 		</dependency>
 		
-		<!-- Validation -->
+		<!-- Validation 
 		<dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
             <version>1.0.0.GA</version>
         </dependency>
+        -->
 		
 		<!-- H2 -->
 		<dependency>

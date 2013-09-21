@@ -25,10 +25,10 @@ import com.malsolo.autentia.cursos.domain.Profesor;
 @Transactional
 public class ProfesorMapperTest {
 
-	private Logger logger = LoggerFactory.getLogger(ProfesorMapperTest.class);
-	
 	private static final String MENSAJE_INICIO_METODO_PRUEBA = "PROBANDO {}.{} ";
 	private static final String MENSAJE_FIN_METODO_PRUEBA = "FIN PROBANDO {}.{} ";
+	
+	private Logger logger = LoggerFactory.getLogger(ProfesorMapperTest.class);
 	
 	@Autowired
 	private ProfesorMapper profesorMapper;
@@ -44,7 +44,6 @@ public class ProfesorMapperTest {
 		};
 	};
 	
-
     @Test
     public void testMarkerMethod() {
     }
