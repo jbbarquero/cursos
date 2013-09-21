@@ -3,14 +3,17 @@ package com.malsolo.autentia.cursos.domain;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class Profesor implements Serializable {
 	
 	/** serialVersionUID  */
 	private static final long serialVersionUID = -8249851878435018619L;
 	
 	private Long id;
-//    @NotNull
-//    @Size(max = 100)
+    @NotNull
+    @Size(max = 100)
 	private String nombre;
     
 	public Long getId() {
