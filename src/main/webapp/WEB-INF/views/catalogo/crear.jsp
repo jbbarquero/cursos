@@ -51,7 +51,14 @@
 						<form:errors path="nivel" cssStyle="color:red" />
 					</div>
 				</td>
-				<td><form:input path="nivel"/></td>
+				<td>
+				<form:select path="nivel">
+					<c:forEach items="${niveles}" var="nivel">
+						<spring:message code="messages_level_${nivel}" var="label"/>
+						<form:option value="${nivel}" label="${label}"/>
+					</c:forEach>
+				</form:select>
+				</td>
 			</tr>
 			<tr>
 				<td>
@@ -75,7 +82,7 @@
 <spring:url value="/" var="home"/>
 <span>
 	<a href="${home}">
-		HOME
+		<spring:message code="messages_button_home"/>
 	</a>
 </span>
 </body>

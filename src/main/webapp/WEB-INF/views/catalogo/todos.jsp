@@ -24,7 +24,7 @@
 			<c:forEach items="${cursos}" var="curso">
 				<tr>
 					<td><a href="${showCursosUrl}/${curso.id}">${curso.titulo}</a></td>
-					<td>${curso.nivel}</td>
+					<td><spring:message code="messages_level_${curso.nivel}"/></td>
 					<td>${curso.horas}</td>
 				</tr>
 			</c:forEach>
@@ -38,7 +38,7 @@
 <spring:url value="/" var="home"/>
 <span>
 	<a href="${home}">
-		HOME
+		<spring:message code="messages_button_home"/>
 	</a>
 </span>
 </body>

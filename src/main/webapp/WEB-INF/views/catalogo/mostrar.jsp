@@ -29,7 +29,7 @@
 			</tr>
 			<tr>
 				<td>Nivel</td>
-				<td>${curso.nivel}</td>
+				<td><spring:message code="messages_level_${curso.nivel}"/></td>
 			</tr>
 			<tr>
 				<td>Horas</td>
@@ -42,7 +42,7 @@
 <spring:url value="/" var="home"/>
 <span>
 	<a href="${home}">
-		HOME
+		<spring:message code="messages_button_home"/>
 	</a>
 </span>
 </body>

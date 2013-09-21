@@ -1,6 +1,8 @@
 package com.malsolo.autentia.cursos.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Curso implements Serializable {
@@ -93,6 +95,19 @@ public class Curso implements Serializable {
     			.add("activo", activo)
     			.add("profesor", profesor)
     			.toString();
+    }
+    
+    /**
+     * Devuelve los niveles contemplados en una lista.
+     * ¿Me hubiera venido bien un enum? Quilosá.
+     * @return los niveles contemplados en una lista.
+     */
+    public static List<Integer> getNiveles() {
+    	List<Integer> niveles = new ArrayList<>();
+    	niveles.add(NIVEL_BASICO);
+    	niveles.add(NIVEL_INTERMEDIO);
+    	niveles.add(NIVEL_AVANZADO);
+    	return niveles;
     }
 
 }
