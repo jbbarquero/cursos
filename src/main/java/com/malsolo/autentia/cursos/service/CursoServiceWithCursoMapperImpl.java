@@ -1,5 +1,6 @@
 package com.malsolo.autentia.cursos.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.base.Preconditions;
 import com.malsolo.autentia.cursos.domain.Curso;
+import com.malsolo.autentia.cursos.domain.CursoPage;
 import com.malsolo.autentia.cursos.persistence.CursoMapper;
 import com.malsolo.autentia.cursos.persistence.OrderType;
 import com.malsolo.autentia.cursos.persistence.ProfesorMapper;
@@ -26,12 +28,21 @@ public class CursoServiceWithCursoMapperImpl implements CursoService {
 	
 	@Transactional(readOnly=true)
 	@Override
-	public List<Curso> catalogo(OrderType orderType, int numeroPagina, int registrosPorPagina) {
+	public CursoPage catalogo(OrderType orderType, int numeroPagina, int registrosPorPagina) {
 		Preconditions.checkNotNull(orderType, "Error al consultar el catalogo, orden incorrecto (null)");
 		Preconditions.checkArgument(numeroPagina>0, "Error al consultar el catalogo, número de página incorrecto: %d",  numeroPagina);
 		Preconditions.checkArgument(numeroPagina>0, "Error al consultar el catalogo, número de registros por página incorrecto: %d",  registrosPorPagina);
-		int primero = (numeroPagina-1)*registrosPorPagina;
-		return this.cursoMapper.findActiveEntries(orderType, new RowBounds(primero, registrosPorPagina));
+		int total = (int) this.cursoMapper.countActiveEntries();
+		CursoPage cursoPage;
+		if (total>0) {
+			int primero = (numeroPagina-1)*registrosPorPagina;
+			List<Curso> cursos = this.cursoMapper.findActiveEntries(orderType, new RowBounds(primero, registrosPorPagina));
+			cursoPage = new CursoPage(total/registrosPorPagina, numeroPagina, total, cursos);
+		}
+		else {
+			cursoPage = new CursoPage(0, 0, 0, new ArrayList<Curso>());
+		}
+		return cursoPage;
 	}
 
 	@Transactional

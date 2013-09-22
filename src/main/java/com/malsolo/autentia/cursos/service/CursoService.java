@@ -3,6 +3,7 @@ package com.malsolo.autentia.cursos.service;
 import java.util.List;
 
 import com.malsolo.autentia.cursos.domain.Curso;
+import com.malsolo.autentia.cursos.domain.CursoPage;
 import com.malsolo.autentia.cursos.persistence.OrderType;
 
 
@@ -21,7 +22,7 @@ public interface CursoService {
 	 * @param registrosPorPagina pues eso.
 	 * @return
 	 */
-	public List<Curso> catalogo(OrderType orderType, int numeroPagina, int registrosPorPagina);
+	public CursoPage catalogo(OrderType orderType, int numeroPagina, int registrosPorPagina);
 	
 	/**
 	 * Como usuario quiero poder dar de alta nuevos cursos, la información sobre los mismos será la siguiente:

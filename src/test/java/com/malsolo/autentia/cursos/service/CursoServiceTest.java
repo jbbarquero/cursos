@@ -19,6 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.malsolo.autentia.cursos.domain.Curso;
+import com.malsolo.autentia.cursos.domain.CursoPage;
 import com.malsolo.autentia.cursos.persistence.OrderType;
 import com.malsolo.autentia.cursos.persistence.ProfesorMapper;
 
@@ -56,12 +57,14 @@ public class CursoServiceTest {
     public void testCatalogo() {
     	int numeroPagina = 1;
     	int registrosPorPagina = 2;
-    	List<Curso> cursos = this.cursoService.catalogo(OrderType.ASC, numeroPagina, registrosPorPagina);
-        assertNotNull("Error al buscar catálogo de cursos, devuelto null", cursos);
-        for (Curso curso : cursos) {
+    	CursoPage cursoPage = this.cursoService.catalogo(OrderType.ASC, numeroPagina, registrosPorPagina);
+        assertNotNull("Error al buscar catálogo de cursos, devuelta página null", cursoPage);
+        assertNotNull("Error al buscar catálogo de cursos, devuelta lista null en página", cursoPage.getCursos());
+        logger.debug("Encontrado página {} del catálogo de un total de {} páginas y con un total de {} cursos. La página contiene {} cursos ", cursoPage.getCurrentPage(), cursoPage.getTotalPages(), cursoPage.getTotalRecords(), cursoPage.getCursos().size());
+        for (Curso curso : cursoPage.getCursos()) {
         	logger.debug("Encontrado curso del catálogo: {} ", curso);
 		}
-        assertEquals("Error al buscar catálogo de cursos, no se ha devuelto el número esperado", 2, cursos.size());
+        assertEquals("Error al buscar catálogo de cursos, no se ha devuelto el número esperado", 2, cursoPage.getCursos().size());
 	}
     
     @Test

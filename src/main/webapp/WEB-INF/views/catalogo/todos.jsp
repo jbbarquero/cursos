@@ -18,6 +18,7 @@
 				<th>Título</th>
 				<th>Nivel</th>
 				<th>Horas</th>
+				<th>Activo</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -26,6 +27,7 @@
 					<td><a href="${showCursosUrl}/${curso.id}">${curso.titulo}</a></td>
 					<td><spring:message code="messages_level_${curso.nivel}"/></td>
 					<td>${curso.horas}</td>
+					<td>${curso.activo}</td>
 				</tr>
 			</c:forEach>
 		</tbody>
