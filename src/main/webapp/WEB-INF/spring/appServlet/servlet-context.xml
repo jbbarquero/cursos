@@ -40,6 +40,9 @@
     <!-- Store preferred language configuration in a cookie -->
     <beans:bean class="org.springframework.web.servlet.i18n.CookieLocaleResolver" id="localeResolver" p:cookieName="locale"/>
     
+    <!-- Selects a static view for rendering without the need for an explicit controller -->
+    <view-controller path="/jquery"/>
+    
     <!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />

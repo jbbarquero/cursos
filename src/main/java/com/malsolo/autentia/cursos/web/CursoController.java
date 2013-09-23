@@ -123,7 +123,7 @@ public class CursoController {
 	 * @param uiModel
 	 * @return
 	 */
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, consumes="application/json")
+    @RequestMapping(value = "/curso/{id}", method = RequestMethod.GET, consumes="application/json")
 	public @ResponseBody Curso findCursoById(@PathVariable("id") Long id, Model uiModel) {
 		return this.cursoService.findById(id);
 	}
