@@ -49,6 +49,7 @@ public class CursoServiceWithCursoMapperImpl implements CursoService {
 	@Override
 	public void alta(Curso curso) {
 		Preconditions.checkNotNull(curso, "Error al crear un curso, curso incorrecto (null)");
+		Preconditions.checkNotNull(curso.getNivel(), "Error al crear un curso, nivel incorrecto (null)");
 		Preconditions.checkArgument((curso.getNivel()==Curso.NIVEL_BASICO) || (curso.getNivel()==Curso.NIVEL_INTERMEDIO) || (curso.getNivel()==Curso.NIVEL_AVANZADO), "Error al crear un curso, nivel incorrecto: %d", curso.getNivel());
 		Preconditions.checkNotNull(curso.getProfesor(), "Error al crear un curso, profesor incorrecto (null)");
 		Preconditions.checkNotNull(curso.getProfesor().getId(), "Error al crear un curso, profesor incorrecto (su ID es null)");

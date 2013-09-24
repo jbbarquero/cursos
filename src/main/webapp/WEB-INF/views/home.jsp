@@ -20,7 +20,7 @@
  	<li><a href="${ver_1_url}">Ver el primer curso</a></li>
 	<spring:url value="/catalogo?form" var="crear_curso_url"/>
  	<li><a href="${crear_curso_url}">Crear curso</a></li>
-	<spring:url value="/jquery" var="jquery_url"/>
+	<spring:url value="/catalogo?jquery" var="jquery_url"/>
  	<li><a href="${jquery_url}">Manejar cursos con JQUERY</a></li>
 </ul>
 </body>

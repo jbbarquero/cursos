@@ -24,6 +24,7 @@ import org.springframework.web.util.WebUtils;
 
 import com.malsolo.autentia.cursos.domain.Curso;
 import com.malsolo.autentia.cursos.domain.CursoPage;
+import com.malsolo.autentia.cursos.domain.Profesor;
 import com.malsolo.autentia.cursos.persistence.OrderType;
 import com.malsolo.autentia.cursos.persistence.ProfesorMapper;
 import com.malsolo.autentia.cursos.service.CursoService;
@@ -45,6 +46,11 @@ public class CursoController {
 	@ModelAttribute("niveles")
 	public List<Integer> getNiveles() {
 		return Curso.getNiveles();
+	}
+
+	@ModelAttribute("losProfesores")
+	public List<Profesor> getProfesores() {
+		return this.profesorMapper.findAll();
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -115,6 +121,14 @@ public class CursoController {
     
     //REST JSON:
     
+    @RequestMapping(params = "jquery", method = RequestMethod.GET)
+    public String getCreateRestForm(Model uiModel) {
+    	Curso curso = new Curso();
+    	uiModel.addAttribute("profesores", this.profesorMapper.findAll());
+    	uiModel.addAttribute("curso", curso);
+    	return "jquery";
+    }
+    
 	/**
 	 * Try with curl -v -H "Content-Type:application/json" -H "Accept:application/json" http://localhost:9080/cursos/catalogo/2
 	 * Or simply curl -v -H "Content-Type:application/json" http://localhost:9080/cursos/catalogo/2
@@ -123,7 +137,7 @@ public class CursoController {
 	 * @param uiModel
 	 * @return
 	 */
-    @RequestMapping(value = "/curso/{id}", method = RequestMethod.GET, consumes="application/json")
+    @RequestMapping(value = "/curso/{id}", method = RequestMethod.GET)
 	public @ResponseBody Curso findCursoById(@PathVariable("id") Long id, Model uiModel) {
 		return this.cursoService.findById(id);
 	}
@@ -160,10 +174,17 @@ public class CursoController {
      */
     @RequestMapping(value = "/crear", method = RequestMethod.POST)
     public @ResponseBody Curso crear(@RequestBody Curso curso) {
-    	logger.info("Crear un curso: {} ", curso);
+    	logger.info("Crear un curso por POST request body: {} ", curso);
     	this.cursoService.alta(curso);
     	logger.info("Curso creado con id {}: {}", curso.getId(), curso);
     	return curso;
     }
     
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public @ResponseBody Curso create(Curso curso) {
+    	logger.info("Crear un curso por POST formulario: {} ", curso);
+    	this.cursoService.alta(curso);
+    	logger.info("Curso creado con id {}: {}", curso.getId(), curso);
+    	return curso;
+    }
 }
