@@ -6,6 +6,8 @@
 <head>
 	<title>Cursos JQUERY</title>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+	<link rel="stylesheet" type="text/css" media="screen" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/ui-lightness/jquery-ui.css" />
 </head>
 <body>
 	<div class="container" style="padding-top: 50px;">
@@ -17,7 +19,7 @@
 		<form id="cursoByIdForm">
 			<label for="curso_id">Curso ID:</label>
 			<input id="curso_id" name="id" type="number" value="1" />
-			<input type="submit" value="Buscar" />
+			<input type="submit" value="Buscar" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"/>
 			<br/><br/>
 			<div id="cursoByIdResult"> </div>
 		</form>

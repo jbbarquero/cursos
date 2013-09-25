@@ -45,7 +45,10 @@
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
-	
+
+    <!-- Selects a static view for rendering without the need for an explicit controller -->
+    <view-controller path="/" view-name="index"/>
+			
 	<context:component-scan base-package="com.malsolo.autentia.cursos" use-default-filters="false">
         <context:include-filter expression="org.springframework.stereotype.Controller" type="annotation"/>
 	</context:component-scan>
